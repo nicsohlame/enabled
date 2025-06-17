@@ -1,52 +1,99 @@
-import react, { useState, useEffect } from "react";
+import react, { useState, useEffect, useRef } from "react";
 import { AssemblyAI } from "assemblyai";
 
 function Transciption() {
-  const [text, setText] = useState("");
-  const [video, setVideo] = useState(null);
-  const [uploadUrl, setUploadUrl] = useState('');
-  const client = new AssemblyAI({
-    apiKey: "182784a0e39145d196a34c10d1e47e8f",
-  });
+  const videoRef = useRef(null);
+  const [videoFile, setVideoFile] = useState(null);
+  const [transcriptSegments, setTranscriptSegments] = useState([]);
+  const [currentLine, setCurrentLine] = useState('');
+  const [isTranscribing, setIsTranscribing] = useState(false);
 
+  const client = new AssemblyAI({ apiKey: '182784a0e39145d196a34c10d1e47e8f' });
 
-  const onFileUpload = async () => {
-    setUploadUrl("");
-    setText("");
+  const handleVideoUpload = (e) => {
+    const file = e.target.files[0];
+    setVideoFile(file);
+    const videoURL = URL.createObjectURL(file);
+    if (videoRef.current) {
+      videoRef.current.src = videoURL;
+    }
+  };
+
+  const handleTranscription = async () => {
+    if (!videoFile) return alert('Please upload a video file first.');
+
+    setIsTranscribing(true);
+    setTranscriptSegments([]);
+    setCurrentLine('');
+
     try {
-      console.log(video);
-      const uploadResponse = await client.files.upload(video);
-      console.log(uploadResponse);
-      setUploadUrl(uploadResponse);
-      console.log(uploadUrl);
-      const config= {
-        audio_url: uploadResponse,
+      const uploadUrl = await client.files.upload(videoFile);
+
+      const transcriptObj = await client.transcripts.create({
+        audio_url: uploadUrl,
+        auto_chapters: false,
+        punctuate: true,
+        format_text: true
+      });
+
+      let pollingResult;
+      while (!pollingResult || pollingResult.status !== 'completed') {
+        pollingResult = await client.transcripts.get(transcriptObj.id);
+        if (pollingResult.status === 'completed') break;
+        await new Promise(res => setTimeout(res, 3000));
       }
-      console.log(config)
-      try {
-        const transcript = await client.transcripts.create(config);
-        console.log(transcript.text);
-        setText(transcript.text);
-      } catch (error) {
-        console.log(error)
-      }
-    } catch (error) {
-      console.error('Error uploading file:', error);
+
+      const segments = pollingResult.words.map(word => ({
+        start: word.start / 1000,
+        end: word.end / 1000,
+        text: word.text
+      }));
+
+      setTranscriptSegments(segments);
+    } catch (err) {
+      console.error('Transcription error:', err);
+      alert('Transcription failed. Check console for details.');
     }
 
-    
-    setVideo(null);
-  }
+    setIsTranscribing(false);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!videoRef.current || !transcriptSegments.length) return;
+
+      const currentTime = videoRef.current.currentTime;
+      const currentWords = transcriptSegments.filter(
+        word => currentTime >= word.start && currentTime <= word.end
+      );
+
+      if (currentWords.length > 0) {
+        setCurrentLine(currentWords.map(w => w.text).join(' '));
+      } else {
+        setCurrentLine('');
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [transcriptSegments]);
 
   return (
-    <>
-    <div>
-    <input className="input-fields" type="file" required onChange={(e) => setVideo(e.target.files[0])}/>
-    <button onClick={onFileUpload}>Upload File</button>
+    <div className="App">
+      <h1>Accessible Video Transcription</h1>
+
+      <input type="file" onChange={handleVideoUpload} />
+      <button onClick={handleTranscription} disabled={isTranscribing}>
+        {isTranscribing ? 'Transcribing...' : 'Transcribe Video'}
+      </button>
+
+      <div style={{ display: 'flex', marginTop: '20px' }}>
+        <video ref={videoRef} width="500" height="300" controls style={{ marginRight: '20px' }} />
+        <div style={{ width: '50%', maxHeight: '300px', overflowY: 'auto', background: '#f0f0f0', padding: '10px' }}>
+          <h3>Real-Time Transcript:</h3>
+          <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>{currentLine}</p>
+        </div>
+      </div>
     </div>
-      <h1>Transciption</h1>
-      <p>{text}</p>
-    </>
   );
 }
 
