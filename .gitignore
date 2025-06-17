@@ -4,12 +4,18 @@
 /node_modules
 /.pnp
 .pnp.js
+venv/
+
 
 # testing
 /coverage
 
 # production
 /build
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
 
 # misc
 .DS_Store
