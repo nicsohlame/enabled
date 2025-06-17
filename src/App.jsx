@@ -1,5 +1,5 @@
-import { Link, Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, Outlet } from "react-router-dom";
+import { useState } from "react";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,7 +14,7 @@ function App() {
           role="button"
           aria-label="Toggle menu"
           tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && setMenuOpen(!menuOpen)}
+          onKeyDown={(e) => e.key === "Enter" && setMenuOpen(!menuOpen)}
         >
           ☰
         </div>
@@ -24,18 +24,29 @@ function App() {
             <Link to="/" style={styles.link} onClick={() => setMenuOpen(false)}>
               🏠 Home
             </Link>
-            <Link to="/transcription" style={styles.link} onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/transcription"
+              style={styles.link}
+              onClick={() => setMenuOpen(false)}
+            >
               🎥 Transcribe Video
             </Link>
-            <Link to="/text-to-speech" style={styles.link} onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/text-to-speech"
+              style={styles.link}
+              onClick={() => setMenuOpen(false)}
+            >
               🗣️ Text-to-Speech
             </Link>
-            <Link to="/sign-language" style={styles.link} onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/sign-language"
+              style={styles.link}
+              onClick={() => setMenuOpen(false)}
+            >
               👋 Sign Language
             </Link>
           </div>
         )}
-
       </header>
 
       <main style={styles.main}>
@@ -61,10 +72,10 @@ const styles = {
     zIndex: 10,
   },
   hamburger: {
-    fontSize: '32px',
-    cursor: 'pointer',
-    color: '#ff6f3c',
-    userSelect: 'none',
+    fontSize: "32px",
+    cursor: "pointer",
+    color: "#ff6f3c",
+    userSelect: "none",
   },
   dropdown: {
   position: 'absolute',
@@ -92,7 +103,7 @@ link: {
 },
 
   main: {
-    padding: '40px 20px',
+    padding: "40px 20px",
   },
 };
 
