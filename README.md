@@ -34,16 +34,11 @@ It offers:
 
 ## 🏗️ Tech Stack
 
-| Layer | Technology |
-
+| Layer    | Technology                                    |
 | -------- | --------------------------------------------- |
-
-| Frontend | React, React Router DOM, Mammoth.js |
-
-| Backend | FastAPI, Python, Sign Language Translator SDK |
-
-| APIs | Web Speech API |
-
-| Styling | Inline CSS-in-JS |
+| Frontend | React, React Router, Mammoth.js               |
+| Backend  | FastAPI, Python, Sign Language Translator SDK |
+| APIs     | Web Speech API                                |
+| Other    | HTML5, CSS-in-JS                              |
 
 ---
