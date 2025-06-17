@@ -2,8 +2,9 @@ import React, { useState } from "react";
 
 function SignLanguage() {
   const [text, setText] = useState("");
-  const [videoUrl, setVideoUrl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageFrames, setImageFrames] = useState([]);
+  const [generatedVideoURL, setGeneratedVideoURL] = useState(null);
 
   const renderSignImages = () => {
     return text
@@ -27,32 +28,54 @@ function SignLanguage() {
   const handleGenerateVideo = async () => {
     if (!text.trim()) return;
     setLoading(true);
-    setVideoUrl(null);
+    setGeneratedVideoURL(null);
+    setImageFrames([]);
 
-    console.log("🟠 Sending text to backend:", text);
+    const images = text
+    .toLowerCase()
+    .split("")
+    .filter((char) => (char >= "a" && char <= "z") || char === " ")
+    .map((char, idx) =>
+      char !== " " ? 
+          "/asl/"+char+ ".png"
+       : null);
+    if (images.length === 0) return alert('No images to process');
 
-    try {
-      const response = await fetch("http://localhost:8000/translate-sign", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text }),
-      });
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const width = 640;
+    const height = 480;
+    const frameRate = 2; // 2 frames per second
+    canvas.width = width;
+    canvas.height = height;
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error?.error || "Failed to generate video");
+    const stream = canvas.captureStream();
+    const recorder = new MediaRecorder(stream);
+    const chunks = [];
+
+    recorder.ondataavailable = (e) => chunks.push(e.data);
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: 'video/webm' });
+      const videoURL = URL.createObjectURL(blob);
+      setGeneratedVideoURL(videoURL);
+    };
+
+    recorder.start();
+    for (const img of images) {
+      if (img === null) {
+        continue;
       }
-
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      setVideoUrl(url);
-    } catch (err) {
-      console.error("❌ Frontend error:", err.message);
-      alert("Error: " + err.message);
+      const image = new Image();
+      image.src = img;
+      await new Promise(res => {
+        image.onload = () => {
+          ctx.drawImage(image, 0, 0, width, height);
+          setTimeout(res, 1000 / frameRate);
+        };
+      });
     }
 
+    recorder.stop();
     setLoading(false);
   };
 
@@ -77,10 +100,10 @@ function SignLanguage() {
 
       <div style={styles.imageContainer}>{renderSignImages()}</div>
 
-      {videoUrl && (
+      {generatedVideoURL && (
         <div style={{ marginTop: "30px" }}>
           <h3>Generated Sign Language Video:</h3>
-          <video src={videoUrl} controls width="400" />
+          <video src={generatedVideoURL} controls width="400" />
         </div>
       )}
     </div>
