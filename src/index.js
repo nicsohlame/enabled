@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import App from './App';
 import Home from './components/Home';
 import Transcription from './features/Transcription';
 import TextToSpeech from './features/TextToSpeech';
@@ -10,11 +11,18 @@ import SignLanguage from './features/SignLanguage';
 
 
 const router = createBrowserRouter([
-  {path: '/',element: <Home />},
-  { path: '/transcription', element: <Transcription /> },
-  { path: '/text-to-speech', element: <TextToSpeech /> },
-  { path: '/sign-language', element: <SignLanguage /> },
+  {
+    path: '/',
+    element: <App />, // Top-level layout
+    children: [
+      { path: '', element: <Home /> }, // Renders at "/"
+      { path: 'transcription', element: <Transcription /> },
+      { path: 'text-to-speech', element: <TextToSpeech /> },
+      { path: 'sign-language', element: <SignLanguage /> },
+    ],
+  },
 ]);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
