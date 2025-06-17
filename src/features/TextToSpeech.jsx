@@ -4,8 +4,10 @@ import mammoth from "mammoth";
 function TextToSpeech() {
   const [text, setText] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isPaused, setIsPaused] = useState(false); // New state for pause
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState(null);
+  const [utterance, setUtterance] = useState(null); // Track utterance
 
   // Load available voices on mount
   useEffect(() => {
@@ -28,20 +30,47 @@ function TextToSpeech() {
   const handleSpeak = () => {
     if (!text.trim()) return;
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    utterance.lang = "en-US";
-
-    if (selectedVoice) {
-      utterance.voice = selectedVoice;
+    // If currently paused, resume speech instead of creating new utterance
+    if (isPaused) {
+      speechSynthesis.resume();
+      setIsPaused(false);
+      return;
     }
 
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
+    const newUtterance = new SpeechSynthesisUtterance(text);
+    newUtterance.rate = 1;
+    newUtterance.pitch = 1;
+    newUtterance.lang = "en-US";
+
+    if (selectedVoice) {
+      newUtterance.voice = selectedVoice;
+    }
+
+    newUtterance.onstart = () => {
+      setIsSpeaking(true);
+      setIsPaused(false);
+    };
+    newUtterance.onend = () => {
+      setIsSpeaking(false);
+      setIsPaused(false);
+      setUtterance(null);
+    };
 
     speechSynthesis.cancel(); // Stop any ongoing speech
-    speechSynthesis.speak(utterance);
+    speechSynthesis.speak(newUtterance);
+    setUtterance(newUtterance);
+  };
+
+  const handlePauseResume = () => {
+    if (!utterance) return; // Nothing to pause or resume
+
+    if (isPaused) {
+      speechSynthesis.resume();
+      setIsPaused(false);
+    } else {
+      speechSynthesis.pause();
+      setIsPaused(true);
+    }
   };
 
   const handleDocxUpload = async (e) => {
@@ -110,14 +139,27 @@ function TextToSpeech() {
 
       <button
         onClick={handleSpeak}
-        disabled={!text.trim() || isSpeaking}
+        disabled={!text.trim() || (isSpeaking && !isPaused)}
         style={{
           ...styles.button,
-          backgroundColor: isSpeaking ? "#ffa07a" : "#ff7f50",
-          cursor: isSpeaking ? "not-allowed" : "pointer",
+          backgroundColor: isSpeaking && !isPaused ? "#ffa07a" : "#ff7f50",
+          cursor: isSpeaking && !isPaused ? "not-allowed" : "pointer",
+          marginRight: "10px",
         }}
       >
-        {isSpeaking ? "🔊 Reading..." : "▶️ Read Aloud"}
+        {isSpeaking && !isPaused ? "🔊 Reading..." : "▶️ Read Aloud"}
+      </button>
+
+      <button
+        onClick={handlePauseResume}
+        disabled={!isSpeaking}
+        style={{
+          ...styles.button,
+          backgroundColor: isPaused ? "#6a9f7f" : "#4682b4",
+          cursor: !isSpeaking ? "not-allowed" : "pointer",
+        }}
+      >
+        {isPaused ? "▶️ Resume" : "⏸️ Pause"}
       </button>
     </div>
   );
