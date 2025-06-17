@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import mammoth from "mammoth";
+import { styles } from "./Styles";
 
 function TextToSpeech() {
   const [text, setText] = useState("");
@@ -164,72 +165,5 @@ function TextToSpeech() {
     </div>
   );
 }
-
-export const styles = {
-  container: {
-    maxWidth: "700px",
-    margin: "50px auto",
-    padding: "30px",
-    backgroundColor: "#ffe5d9",
-    borderRadius: "16px",
-    boxShadow: "0 6px 16px rgba(0, 0, 0, 0.1)",
-    fontFamily: "Arial Rounded MT Bold, sans-serif",
-    textAlign: "center",
-  },
-  title: {
-    fontSize: "32px",
-    color: "#ff7f50",
-    marginBottom: "10px",
-    fontFamily: "Montserrat, sans-serif",
-  },
-  subtitle: {
-    fontSize: "18px",
-    color: "#555",
-    marginBottom: "30px",
-  },
-  label: {
-    display: "block",
-    fontSize: "18px",
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: "10px",
-    textAlign: "left",
-  },
-  textarea: {
-    width: "100%",
-    fontSize: "18px",
-    padding: "12px",
-    marginBottom: "24px",
-    borderRadius: "10px",
-    border: "1px solid #ddd",
-    backgroundColor: "#fff",
-    resize: "none",
-    fontFamily: "inherit",
-  },
-  select: {
-    width: "100%",
-    padding: "10px",
-    fontSize: "16px",
-    marginBottom: "24px",
-    borderRadius: "10px",
-    border: "1px solid #ccc",
-    fontFamily: "inherit",
-  },
-  fileInput: {
-    width: "100%",
-    marginBottom: "24px",
-  },
-  transcribeFileInput: {
-    marginBottom: "24px"
-  },
-  button: {
-    fontSize: "18px",
-    padding: "12px 28px",
-    color: "#fff",
-    border: "none",
-    borderRadius: "10px",
-    transition: "background 0.2s ease",
-  },
-};
 
 export default TextToSpeech;

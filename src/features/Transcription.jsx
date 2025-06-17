@@ -1,6 +1,6 @@
-import react, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AssemblyAI } from "assemblyai";
-import { styles } from "./TextToSpeech";
+import { styles } from "./Styles";
 
 function Transcription() {
   const videoRef = useRef(null);
@@ -79,10 +79,12 @@ function Transcription() {
   return (
     <div style={styles.container} className="App">
       <h1 style={styles.title}>Accessible Video Transcription</h1>
-      <p style={styles.subtitle}>
-        Upload a .mp4 file to be transcribed
-      </p>
-      <input style={styles.transcribeFileInput} type="file" onChange={handleVideoUpload} />
+      <p style={styles.subtitle}>Upload a .mp4 file to be transcribed</p>
+      <input
+        style={styles.transcribeFileInput}
+        type="file"
+        onChange={handleVideoUpload}
+      />
       <button onClick={handleTranscription} disabled={isTranscribing}>
         {isTranscribing ? "Transcribing..." : "Transcribe Video"}
       </button>
@@ -127,8 +129,6 @@ function Transcription() {
       </div>
     </div>
   );
-
-
 }
 
 export default Transcription;
