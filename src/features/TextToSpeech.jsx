@@ -165,7 +165,7 @@ function TextToSpeech() {
   );
 }
 
-const styles = {
+export const styles = {
   container: {
     maxWidth: "700px",
     margin: "50px auto",
@@ -217,6 +217,9 @@ const styles = {
   fileInput: {
     width: "100%",
     marginBottom: "24px",
+  },
+  transcribeFileInput: {
+    marginBottom: "24px"
   },
   button: {
     fontSize: "18px",

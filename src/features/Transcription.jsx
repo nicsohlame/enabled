@@ -1,7 +1,8 @@
 import react, { useState, useEffect, useRef } from "react";
 import { AssemblyAI } from "assemblyai";
+import { styles } from "./TextToSpeech";
 
-function Transciption() {
+function Transcription() {
   const videoRef = useRef(null);
   const [videoFile, setVideoFile] = useState(null);
   const [transcriptSegments, setTranscriptSegments] = useState([]);
@@ -72,16 +73,18 @@ function Transciption() {
       } else {
         setCurrentLine('');
       }
-    }, 10000);
+    }, 500);
 
     return () => clearInterval(interval);
   }, [transcriptSegments]);
 
   return (
-    <div className="App">
-      <h1>Accessible Video Transcription</h1>
-
-      <input type="file" onChange={handleVideoUpload} />
+    <div style={styles.container} className="App">
+      <h1 style={styles.title}>Accessible Video Transcription</h1>
+      <p style={styles.subtitle}>
+        Upload a .mp4 file to be transcribed
+      </p>
+      <input style={styles.transcribeFileInput} type="file" onChange={handleVideoUpload} />
       <button onClick={handleTranscription} disabled={isTranscribing}>
         {isTranscribing ? 'Transcribing...' : 'Transcribe Video'}
       </button>
@@ -95,6 +98,8 @@ function Transciption() {
       </div>
     </div>
   );
+
+
 }
 
-export default Transciption;
+export default Transcription;
