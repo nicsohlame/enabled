@@ -2,52 +2,63 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Enabled</h1>
-      <p style={styles.subtext}>
-        Empowering inclusive learning, one tool at a time.
-      </p>
+    <div style={styles.pageWrapper}>
+      <div style={styles.titleContainer}>
+        <h1 style={styles.title}>Enabled</h1>
+      </div>
 
-      <div style={styles.linksWrapper}>
-        <Link to="/transcription" style={styles.linkButton}>
-          🎥 Upload Video for Transcription
-        </Link>
+      <div style={styles.container}>
+        <p style={styles.subtext}>
+          Enabling you to dream bigger.
+        </p>
 
-        <Link to="/text-to-speech" style={styles.linkButton}>
-          🗣️ Text-to-Speech
-        </Link>
-        <Link to="/sign-language" style={styles.linkButton}>
-          👋 Sign Language
-        </Link>
+        <div style={styles.linksWrapper}>
+          <Link to="/transcription" style={styles.linkButton}>
+            🎥 Upload Video for Transcription
+          </Link>
+
+          <Link to="/text-to-speech" style={styles.linkButton}>
+            🗣️ Text-to-Speech
+          </Link>
+
+          <Link to="/sign-language" style={styles.linkButton}>
+            👋 Sign Language
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
 
 const styles = {
-  container: {
+  pageWrapper: {
+    // backgroundColor: "#ff914d",
+    padding: "40px 20px",
+    fontFamily: "Fredoka",
+  },
+  titleContainer: {
     textAlign: "center",
-    marginTop: "100px",
-    fontFamily: "Arial Rounded MT Bold, sans-serif",
-    backgroundColor: "#fff3e6",
-    padding: "60px 20px",
-    borderRadius: "20px",
-    boxShadow: "0 6px 16px rgba(0,0,0,0.05)",
-    maxWidth: "700px",
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginBottom: "40px",
   },
   title: {
-    fontSize: "60px",
-    marginBottom: "10px",
-    background: "linear-gradient(to right, #ff7f50, #ff914d)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    textShadow: "1px 1px 6px rgba(255, 150, 100, 0.3)",
+    fontSize: "100px",
+    color: "#F2EFC7",
+    textShadow: "2px 2px 6px rgba(0,0,0,0.15)",
+    margin: 0,
+    letterSpacing: "2px",
+  },
+  container: {
+    textAlign: "center",
+    backgroundColor: "#ffe5d9",
+    padding: "50px 30px",
+    borderRadius: "20px",
+    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.1)",
+    maxWidth: "700px",
+    margin: "0 auto",
   },
   subtext: {
     fontSize: "20px",
-    color: "#333",
+    color: "#F2EFC7",
     marginBottom: "40px",
   },
   linksWrapper: {
@@ -60,13 +71,12 @@ const styles = {
     display: "inline-block",
     padding: "14px 28px",
     fontSize: "18px",
-    backgroundColor: "#ff914d",
-    color: "#fff",
+    backgroundColor: "#ff7f50",
+    color: "#F2EFC7",
     textDecoration: "none",
     borderRadius: "14px",
-    boxShadow: "0 4px 8px rgba(255,127,80,0.2)",
-    transition: "background 0.2s ease",
-    width: "fit-content",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    transition: "transform 0.2s ease",
   },
 };
 

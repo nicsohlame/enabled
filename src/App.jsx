@@ -30,6 +30,9 @@ function App() {
             <Link to="/text-to-speech" style={styles.link} onClick={() => setMenuOpen(false)}>
               🗣️ Text-to-Speech
             </Link>
+            <Link to="/sign-language" style={styles.link} onClick={() => setMenuOpen(false)}>
+              👋 Sign Language
+            </Link>
           </div>
         )}
 
@@ -45,7 +48,7 @@ function App() {
 const styles = {
   container: {
     fontFamily: 'Arial Rounded MT Bold, sans-serif',
-    backgroundColor: '#fffdf8',
+    backgroundColor: '#E16600',
     minHeight: '100vh',
   },
   header: {
@@ -54,8 +57,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    borderBottom: '2px solid #ffedd5',
-    boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
     position: 'relative',
     zIndex: 10,
   },
@@ -69,13 +70,13 @@ const styles = {
   position: 'absolute',
   top: '70px',
   right: '20px',
-  backgroundColor: '#fff8f0',
+  backgroundColor: '#813405',
   borderRadius: '16px',
   boxShadow: '0 6px 16px rgba(0,0,0,0.1)',
   padding: '12px 16px',
   display: 'flex',
   flexDirection: 'column',
-  zIndex: 1000,
+  // zIndex: 1000,
 },
 link: {
   padding: '10px 16px',

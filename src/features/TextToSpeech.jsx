@@ -170,7 +170,7 @@ const styles = {
     maxWidth: "700px",
     margin: "50px auto",
     padding: "30px",
-    backgroundColor: "#fffaf5",
+    backgroundColor: "#ffe5d9",
     borderRadius: "16px",
     boxShadow: "0 6px 16px rgba(0, 0, 0, 0.1)",
     fontFamily: "Arial Rounded MT Bold, sans-serif",
@@ -180,6 +180,7 @@ const styles = {
     fontSize: "32px",
     color: "#ff7f50",
     marginBottom: "10px",
+    fontFamily: "Montserrat, sans-serif",
   },
   subtitle: {
     fontSize: "18px",
