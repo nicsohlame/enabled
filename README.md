@@ -34,15 +34,16 @@ It offers:
 
 ## 🏗️ Tech Stack
 
-| Layer    | Technology                                    |
-| -------- | --------------------------------------------- |
-| Frontend | React, React Router, Mammoth.js               |
-| Backend  | FastAPI, Python, Sign Language Translator SDK |
-| APIs     | Web Speech API                                |
-| Other    | HTML5, CSS-in-JS                              |
+| Layer    | Technology                      |
+| -------- | ------------------------------- |
+| Frontend | React, React Router, Mammoth.js |
+| APIs     | Web Speech API                  |
+| Other    | HTML5, CSS-in-JS                |
 
 ---
+
 ## For Testing/Running the app
+
 Upon opening the project in an IDE of your choice, please run the command below to install the needed dependencies
 
 _(Please ensure you have npm installed)_
