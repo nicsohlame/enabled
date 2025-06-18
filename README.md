@@ -42,3 +42,17 @@ It offers:
 | Other    | HTML5, CSS-in-JS                              |
 
 ---
+## For Testing/Running the app
+Upon opening the project in an IDE of your choice, please run the command below to install the needed dependencies
+
+_(Please ensure you have npm installed)_
+
+```
+npm install
+```
+
+To start up the application, run
+
+```
+npm start
+```
