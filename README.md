@@ -10,7 +10,7 @@ It offers:
 
 - 🤟 Text-to-Sign Language Video Translation
 
-> Built with **React** (frontend) and **FastAPI** (backend), this platform enables accessible learning for all.
+> Built with **React**, this platform enables accessible learning for all.
 
 ---
 
